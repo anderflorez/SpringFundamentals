@@ -3,9 +3,9 @@ public class Client
 {
 	public static void main(String[] args)
 	{
-		InvoiceService invoices = new InvoiceService();
+		InvoiceService invoices = CrudeContainer.getInvoiceService();
 		
-		Invoice newInvoice = new Invoice("11075", "Bill McLarane");
+		Invoice newInvoice = new Invoice("11080", "Bill McLarane");
 		
 		invoices.raiseInvoice(newInvoice);
 	}
