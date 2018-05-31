@@ -10,7 +10,8 @@ public class ClientApplication
 	{
 		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
 		
-		MessageOfTheDayService helloWorld = container.getBean("motdService2", MessageOfTheDayService.class);
+		//when there is only one bean in the xml file there is no need to specify the id here
+		MessageOfTheDayService helloWorld = container.getBean("motdService3", MessageOfTheDayService.class);
 		System.out.println(helloWorld.getTodaysMessage());
 		
 		container.close();
