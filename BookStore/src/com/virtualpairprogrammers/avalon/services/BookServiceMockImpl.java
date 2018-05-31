@@ -23,17 +23,17 @@ public class BookServiceMockImpl implements BookService
 
 	public Book getBookByIsbn(String isbn) 
 	{
-		return null;
+		return testBooks.get(isbn);
 	}
 
 	public List<Book> getEntireCatalogue() 
 	{
-		return null;
+		return new ArrayList<Book>(testBooks.values());
 	}
 
 	public void registerNewBook(Book newBook) 
 	{
-		
+		testBooks.put(newBook.getIsbn(), newBook);
 	}
     
 	public List<Book> getAllBooksByAuthor(String author) 
