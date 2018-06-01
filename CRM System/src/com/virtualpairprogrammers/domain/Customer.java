@@ -79,7 +79,7 @@ public class Customer
 	 */
 	public void addCall(Call callDetails) 
 	{
-		this.calls.add(callDetails);		
+		this.calls.add(callDetails);
 	}
 	
 	/**

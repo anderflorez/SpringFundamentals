@@ -4,5 +4,12 @@
 <beans>
 
 	<!-- add your bean definitions here! -->
+	<bean id="customerService" 
+		class="com.virtualpairprogrammers.services.customers.CustomerManagementMockImpl">
+	</bean>
+	
+	<bean id="DiaryManagementService"
+		class="com.virtualpairprogrammers.services.diary.DiaryManagementServiceMockImpl">
+	</bean>
 
 </beans>
