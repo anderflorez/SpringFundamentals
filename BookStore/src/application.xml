@@ -5,5 +5,25 @@
 	<bean id="bookService" class="com.virtualpairprogrammers.avalon.services.BookServiceMockImpl">
 		
 	</bean>
+	
+	<bean id="accountsService" class="com.virtualpairprogrammers.avalon.services.AccountsServiceMockImpl">
+		
+	</bean>
+	
+	<!-- scope singleton is the default but there is also prototype which creates multiple instances -->
+	<!-- lazy-init instantiates the object at the first use -->
+	<bean id="purchasingService" 
+		class="com.virtualpairprogrammers.avalon.services.PurchasingServiceImpl"
+		scope="prototype">
+		
+			<!-- Here we can choose between constructor injection or setter injection -->
+		
+			<!-- indexes are generally not needed but they can be used -->
+			<constructor-arg index="1" ref="bookService" />
+			<constructor-arg index="0" ref="accountsService" />
+		
+<!-- 		<property name="accountsService" ref="accountsService"></property>
+			<property name="bookService" ref="bookService"></property> -->
+	</bean>
 
 </beans>

@@ -6,18 +6,33 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.virtualpairprogrammers.avalon.domain.Book;
 import com.virtualpairprogrammers.avalon.services.BookService;
+import com.virtualpairprogrammers.avalon.services.PurchasingService;
 
 public class Client 
 {
 	public static void main(String[] args)
 	{
+		//Testing BookService
 		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
-		BookService service = container.getBean(BookService.class);
+		BookService service = container.getBean("bookService", BookService.class);
 		
 		List<Book> allBooks = service.getEntireCatalogue();
 		for (Book next : allBooks)
 		{
 			System.out.println(next);
 		}
+		
+		container.close();
+		
+		//Testing PurchasingService
+		System.out.println("\nTesting buying a book...");
+		String requiredIsbn = "ISBN1";		//we know this isbn is pressent in the mock
+		
+		ClassPathXmlApplicationContext purchaseContainer = new ClassPathXmlApplicationContext("application.xml");
+		PurchasingService purchasing = purchaseContainer.getBean("purchasingService", PurchasingService.class);
+		
+		purchasing.buyBook(requiredIsbn);
+		
+		purchaseContainer.close();
 	}
 }
