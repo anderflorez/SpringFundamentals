@@ -18,9 +18,9 @@
 		
 			<!-- Here we can choose between constructor injection or setter injection -->
 		
-			<!-- indexes are generally not needed but they can be used -->
-			<constructor-arg index="1" ref="bookService" />
-			<constructor-arg index="0" ref="accountsService" />
+			<!-- indexes are generally not needed but they can be used (index="0") -->
+			<constructor-arg ref="bookService" />
+			<constructor-arg ref="accountsService" />
 		
 <!-- 		<property name="accountsService" ref="accountsService"></property>
 			<property name="bookService" ref="bookService"></property> -->
