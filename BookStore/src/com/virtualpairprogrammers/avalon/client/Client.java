@@ -13,26 +13,41 @@ public class Client
 	public static void main(String[] args)
 	{
 		//Testing BookService
-		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
-		BookService service = container.getBean("bookService", BookService.class);
+//		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
+//		BookService service = container.getBean("bookService", BookService.class);
+//		
+//		List<Book> allBooks = service.getEntireCatalogue();
+//		for (Book next : allBooks)
+//		{
+//			System.out.println(next);
+//		}
+//		
+//		container.close();
 		
-		List<Book> allBooks = service.getEntireCatalogue();
+		
+		//Testing PurchasingService
+//		System.out.println("\nTesting buying a book...");
+//		String requiredIsbn = "ISBN1";		//we know this isbn is pressent in the mock
+//		
+//		ClassPathXmlApplicationContext purchaseContainer = new ClassPathXmlApplicationContext("application.xml");
+//		PurchasingService purchasing = purchaseContainer.getBean("purchasingService", PurchasingService.class);
+//		
+//		purchasing.buyBook(requiredIsbn);
+//		
+//		purchaseContainer.close();
+		
+		
+		// Testing database connections
+		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
+		
+		BookService bookService = container.getBean(BookService.class);
+		bookService.registerNewBook(new Book("2384928389223", "War and Peace", "Leo Tolstoy", 10.99));
+		List<Book> allBooks = bookService.getEntireCatalogue();
 		for (Book next : allBooks)
 		{
 			System.out.println(next);
 		}
 		
 		container.close();
-		
-		//Testing PurchasingService
-		System.out.println("\nTesting buying a book...");
-		String requiredIsbn = "ISBN1";		//we know this isbn is pressent in the mock
-		
-		ClassPathXmlApplicationContext purchaseContainer = new ClassPathXmlApplicationContext("application.xml");
-		PurchasingService purchasing = purchaseContainer.getBean("purchasingService", PurchasingService.class);
-		
-		purchasing.buyBook(requiredIsbn);
-		
-		purchaseContainer.close();
 	}
 }
