@@ -8,8 +8,15 @@
 		class="com.virtualpairprogrammers.services.customers.CustomerManagementMockImpl">
 	</bean>
 	
-	<bean id="DiaryManagementService"
+	<bean id="diaryManagementService"
 		class="com.virtualpairprogrammers.services.diary.DiaryManagementServiceMockImpl">
+	</bean>
+	
+	<bean id="callHandlingService"
+		class="com.virtualpairprogrammers.services.calls.CallHandlingServiceImpl">
+			
+			<constructor-arg ref="customerService" />
+			<constructor-arg ref="diaryManagementService" />
 	</bean>
 
 </beans>

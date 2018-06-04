@@ -1,7 +1,6 @@
 package com.virtualpairprogrammers.services.customers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +78,7 @@ public class CustomerManagementMockImpl implements CustomerManagementService {
 	public void recordCall(String customerId, Call callDetails) throws CustomerNotFoundException
 	{
 		Customer customer = this.getFullCustomerDetail(customerId);
-		customer.addCall(callDetails);		
+		customer.addCall(callDetails);
 	}
 
 }
