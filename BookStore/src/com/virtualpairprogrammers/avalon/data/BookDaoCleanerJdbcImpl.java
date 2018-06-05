@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -22,12 +24,21 @@ public class BookDaoCleanerJdbcImpl implements BookDao
 	public BookDaoCleanerJdbcImpl (JdbcTemplate jdbcTemplate)
 	{
 		this.jdbcTemplate = jdbcTemplate;
-		
-		// TODO: improve this try block
-		try {
+	}
+	
+	private void createTables()
+	{
+		try
+		{
 			jdbcTemplate.update(CREATE_TABLE_SQL);
-		} catch (DataAccessException e) {
+		} 
+		catch (BadSqlGrammarException e)
+		{
 			System.out.println("Assuming that the table already exists");
+		}
+		catch (DataAccessException e)
+		{
+			System.err.println(e);
 		}
 	}
 
@@ -38,10 +49,16 @@ public class BookDaoCleanerJdbcImpl implements BookDao
 	}
 
 	@Override
-	public Book findByIsbn(String isbn)
+	public Book findByIsbn(String isbn) throws BookNotFoundException
 	{
 		// return jdbcTemplate.queryForObject("SELECT * FROM BOOK WHERE ISBN = ?", new BookMapper(), isbn);
-		return jdbcTemplate.queryForObject("SELECT * FROM BOOK WHERE ISBN = ?", Book.class, isbn);
+		try {
+			return jdbcTemplate.queryForObject("SELECT * FROM BOOK WHERE ISBN = ?", Book.class, isbn);
+		}
+		catch (EmptyResultDataAccessException e)
+		{
+			throw new BookNotFoundException();
+		}
 	}
 
 	@Override

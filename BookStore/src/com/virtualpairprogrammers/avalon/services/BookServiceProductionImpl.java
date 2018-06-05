@@ -3,6 +3,7 @@ package com.virtualpairprogrammers.avalon.services;
 import java.util.List;
 
 import com.virtualpairprogrammers.avalon.data.BookDao;
+import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 
 public class BookServiceProductionImpl implements BookService {
@@ -27,7 +28,7 @@ public class BookServiceProductionImpl implements BookService {
 	}
 
 	@Override
-	public Book getBookByIsbn(String isbn)
+	public Book getBookByIsbn(String isbn) throws BookNotFoundException
 	{
 		return dao.findByIsbn(isbn);
 	}

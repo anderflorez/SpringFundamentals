@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 import com.virtualpairprogrammers.avalon.services.BookService;
-import com.virtualpairprogrammers.avalon.services.PurchasingService;
 
 public class Client 
 {
@@ -46,6 +46,12 @@ public class Client
 		for (Book next : allBooks)
 		{
 			System.out.println(next);
+		}
+		
+		try {
+			Book foundBook = bookService.getBookByIsbn("vlakifnvbolikejvsopli");
+		} catch (BookNotFoundException e) {
+			System.err.println("Sorry, that book does not exist");
 		}
 		
 		container.close();

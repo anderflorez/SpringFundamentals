@@ -124,7 +124,7 @@ public class BookDaoHorridJdbcImpl implements BookDao
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public List findBooksByAuthor(String author) 
+	public List<Book> findBooksByAuthor(String author) 
 	{
 		throw new java.lang.UnsupportedOperationException();
 	}
@@ -134,13 +134,13 @@ public class BookDaoHorridJdbcImpl implements BookDao
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-	public List allBooks() 
+	public List<Book> allBooks() 
 	{
 		try 
 		{
 			Connection con = null;
 			PreparedStatement getBooks = null;
-			List results = new ArrayList();
+			List<Book> results = new ArrayList<>();
 			ResultSet rs = null;
 
 			try
