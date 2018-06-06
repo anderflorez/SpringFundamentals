@@ -60,8 +60,26 @@
 	</bean>
 	
 	<!-- Timing Bean -->
+	<!-- 
 	<bean id="bookService" class="com.virtualpairprogrammers.avalon.services.BookServiceTimingProxy">
 		<property name="originalBookService" ref="bookServiceTarget" />
 	</bean>
+	 -->
 
+
+	<!-- AOP Configuration -->
+
+	<!-- Advice -->
+	<bean id="loggingAdvice" class="com.virtualpairprogrammers.avalon.advice.PerformanceTimingAdvice" />
+	
+	<!-- Generated Proxies -->
+	<bean id="bookService" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces" value="com.virtualpairprogrammers.avalon.services.BookService" />
+		<property name="interceptorNames">
+			<list>
+				<value>loggingAdvice</value>
+			</list>
+		</property>
+		<property name="target" ref="bookServiceTarget" />
+	</bean>
 </beans>
