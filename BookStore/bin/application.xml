@@ -33,7 +33,7 @@
 
 	<!-- Service Beans -->
 	
-	<bean id="bookService" class="com.virtualpairprogrammers.avalon.services.BookServiceProductionImpl">
+	<bean id="bookServiceTarget" class="com.virtualpairprogrammers.avalon.services.BookServiceProductionImpl">
 		<constructor-arg ref="bookDao" />
 	</bean>
 	
@@ -57,6 +57,11 @@
 			<property name="accountsService" ref="accountsService"></property>
 			<property name="bookService" ref="bookService"></property>
 			 -->
+	</bean>
+	
+	<!-- Timing Bean -->
+	<bean id="bookService" class="com.virtualpairprogrammers.avalon.services.BookServiceTimingProxy">
+		<property name="originalBookService" ref="bookServiceTarget" />
 	</bean>
 
 </beans>
