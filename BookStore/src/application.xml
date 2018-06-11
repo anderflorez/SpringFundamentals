@@ -1,6 +1,11 @@
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"  
-            "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-<beans>
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- DataSources -->
 	
@@ -33,7 +38,7 @@
 
 	<!-- Service Beans -->
 	
-	<bean id="bookServiceTarget" class="com.virtualpairprogrammers.avalon.services.BookServiceProductionImpl">
+	<bean id="bookService" class="com.virtualpairprogrammers.avalon.services.BookServiceProductionImpl">
 		<constructor-arg ref="bookDao" />
 	</bean>
 	
@@ -70,9 +75,11 @@
 	<!-- AOP Configuration -->
 
 	<!-- Advice -->
-	<bean id="loggingAdvice" class="com.virtualpairprogrammers.avalon.advice.PerformanceTimingAdvice" />
+	<bean id="loggingAdvice" class="com.virtualpairprogrammers.avalon.advice.PerformanceTimingAdvice2" />
 	
 	<!-- Generated Proxies -->
+	<!-- regular generated proxy without using Aspectj Pointcut -->
+	<!-- 	
 	<bean id="bookService" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="proxyInterfaces" value="com.virtualpairprogrammers.avalon.services.BookService" />
 		<property name="interceptorNames">
@@ -82,4 +89,25 @@
 		</property>
 		<property name="target" ref="bookServiceTarget" />
 	</bean>
+	 -->
+	 
+	 <!-- Using Aspectj Pointcut syntax -->
+	 <!-- Weave the advice into the classes defined by the pointcut using the more powerfull and special xml tags -->
+	 <!-- 
+	 <aop:config>
+	 	
+	 	<aop:pointcut expression="execution(java.util.List com.virtualpairprogrammers.avalon.services.*.* (..) )" 
+	 					id="allServiceMethodsThatReturnLists"/>
+	 
+	 	<aop:aspect ref="loggingAdvice">
+	 		<aop:around method="performTimingMeasurement"
+	 					pointcut-ref="allServiceMethodsThatReturnLists" />
+	 		<aop:before method="beforeAdviceTesting"
+	 					pointcut-ref="allServiceMethodsThatReturnLists" />
+	 	</aop:aspect>
+	 </aop:config>
+	  -->	
+	  
+	  <!-- Tells spring to search for AOP annotations -->
+	  <aop:aspectj-autoproxy />
 </beans>
