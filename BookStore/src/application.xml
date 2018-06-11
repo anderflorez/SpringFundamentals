@@ -98,6 +98,7 @@
 	 	
 	 	<aop:pointcut expression="execution(java.util.List com.virtualpairprogrammers.avalon.services.*.* (..) )" 
 	 					id="allServiceMethodsThatReturnLists"/>
+	 	
 	 
 	 	<aop:aspect ref="loggingAdvice">
 	 		<aop:around method="performTimingMeasurement"

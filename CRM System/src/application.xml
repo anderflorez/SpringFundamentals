@@ -1,7 +1,11 @@
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"  
-            "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-
-<beans>
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- DataSource Bean -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -41,5 +45,21 @@
 			<constructor-arg ref="customerService" />
 			<constructor-arg ref="diaryManagementService" />
 	</bean>
+	
+	
+	<!-- AOP Configuration -->
+	
+	<!-- Advice -->
+	<bean id="TimePerformanceAdvice" class="com.virtualpairprogrammers.advice.TimePerformanceAdvice" />
+	
+	<!-- Proxy Configuration -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.virtualpairprogrammers.services..*.* (..)) || execution(* com.virtualpairprogrammers.dataaccess.*.* (..))"
+						id="ServiceAndDAOPerformance"/>
+		<aop:aspect ref="TimePerformanceAdvice">
+			<aop:around method="performanceMeasurement"
+						pointcut-ref="ServiceAndDAOPerformance" />
+		</aop:aspect>
+	</aop:config>
 
 </beans>
