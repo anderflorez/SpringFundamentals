@@ -10,7 +10,7 @@ public class SimpleLoggingAdvice2 implements AfterReturningAdvice {
 	public void afterReturning(Object returnValue, Method method, Object[] arguments, Object targetObject) throws Throwable
 	{
 		System.out.println("Now finished calling the " + method.getName() + " method");
-		 System.out.println("The target method returned the value: " + returnValue);
+		System.out.println("The target method returned the value: " + returnValue);
 	}
 
 }

@@ -35,6 +35,11 @@ public class BookServiceMockImpl implements BookService
 	{
 		testBooks.put(newBook.getIsbn(), newBook);
 	}
+	
+	public void deleteFromStock(Book oldBook)
+	{
+		testBooks.remove(oldBook.getIsbn());
+	}
     
 	public List<Book> getAllBooksByAuthor(String author) 
 	{

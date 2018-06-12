@@ -9,9 +9,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.virtualpairprogrammers.avalon.domain.Book;
 
+@Transactional(propagation=Propagation.MANDATORY)
 public class BookDaoCleanerJdbcImpl implements BookDao
 {
 	private JdbcTemplate jdbcTemplate;
@@ -51,9 +54,8 @@ public class BookDaoCleanerJdbcImpl implements BookDao
 	@Override
 	public Book findByIsbn(String isbn) throws BookNotFoundException
 	{
-		// return jdbcTemplate.queryForObject("SELECT * FROM BOOK WHERE ISBN = ?", new BookMapper(), isbn);
 		try {
-			return jdbcTemplate.queryForObject("SELECT * FROM BOOK WHERE ISBN = ?", Book.class, isbn);
+			return jdbcTemplate.queryForObject("SELECT * FROM BOOK WHERE ISBN = ?", new BookMapper(), isbn);
 		}
 		catch (EmptyResultDataAccessException e)
 		{

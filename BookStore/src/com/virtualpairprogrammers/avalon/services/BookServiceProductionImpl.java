@@ -47,9 +47,12 @@ public class BookServiceProductionImpl implements BookService {
 	{
 		//We want to put this book in the database
 		dao.create(newBook);
-		
-		//simulating a crash
-		throw new NullPointerException();
+	}
+
+	@Override
+	public void deleteFromStock(Book oldBook)
+	{
+		dao.delete(oldBook);
 	}
 
 }

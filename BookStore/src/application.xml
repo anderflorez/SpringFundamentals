@@ -121,6 +121,6 @@
 	  
 	  <!-- Transaction Configuration -->
 	  <!-- the attribute transaction-manager is not needed if the transaction manager is called transactionManager -->
-	  <tx:annotation-driven transaction-manager="transactionManager" />
+	  <tx:annotation-driven />
 	  
 </beans>

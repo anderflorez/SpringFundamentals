@@ -1,12 +1,12 @@
 package com.virtualpairprogrammers.avalon.client;
 
-import java.util.List;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.virtualpairprogrammers.avalon.data.BookDao;
 import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 import com.virtualpairprogrammers.avalon.services.BookService;
+import com.virtualpairprogrammers.avalon.services.PurchasingService;
 
 public class Client 
 {
@@ -38,29 +38,55 @@ public class Client
 		
 		
 		// Testing database connections
+//		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
+//		
+//		try
+//		{
+//			BookService bookService = container.getBean("bookService", BookService.class);
+//			bookService.registerNewBook(new Book("2384928389223", "War and Peace", "Leo Tolstoy", 10.99));
+//			List<Book> allBooks = bookService.getEntireCatalogue();
+//			for (Book next : allBooks)
+//			{
+//				System.out.println(next);
+//			}
+//			try
+//			{
+//				Book foundBook = bookService.getBookByIsbn("vlakifnvbolikejvsopli");
+//			}
+//			catch (BookNotFoundException e)
+//			{
+//				System.err.println("Sorry, that book does not exist");
+//			}
+//		}
+//		finally
+//		{
+//			container.close();			
+//		}
+		
+		
+		// Testing Transactions
 		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
 		
 		try
 		{
-			BookService bookService = container.getBean("bookService", BookService.class);
-			bookService.registerNewBook(new Book("2384928389223", "War and Peace", "Leo Tolstoy", 10.99));
-			List<Book> allBooks = bookService.getEntireCatalogue();
-			for (Book next : allBooks)
-			{
-				System.out.println(next);
-			}
+			PurchasingService purchasing = container.getBean(PurchasingService.class);
+			BookService bookService = container.getBean(BookService.class);
+			
+			bookService.registerNewBook(new Book("10003993939", "Test Title", "Author", 10.99));
+			
 			try
 			{
-				Book foundBook = bookService.getBookByIsbn("vlakifnvbolikejvsopli");
-			}
+				purchasing.buyBook("10003993939");
+			} 
 			catch (BookNotFoundException e)
 			{
-				System.err.println("Sorry, that book does not exist");
-			} 
+				System.out.println("Sorry, that book doesn't exist");
+			}			
 		}
 		finally
 		{
-			container.close();			
+			container.close();
 		}
+		
 	}
 }
