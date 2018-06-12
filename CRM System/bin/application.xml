@@ -50,14 +50,14 @@
 	<!-- AOP Configuration -->
 	
 	<!-- Advice -->
-	<bean id="TimePerformanceAdvice" class="com.virtualpairprogrammers.advice.TimePerformanceAdvice" />
+	<bean id="performanceAdvice" class="com.virtualpairprogrammers.advice.PerformanceTimingAdvice" />
 	
 	<!-- Proxy Configuration -->
 	<aop:config>
 		<aop:pointcut expression="execution(* com.virtualpairprogrammers.services..*.* (..)) || execution(* com.virtualpairprogrammers.dataaccess.*.* (..))"
 						id="ServiceAndDAOPerformance"/>
-		<aop:aspect ref="TimePerformanceAdvice">
-			<aop:around method="performanceMeasurement"
+		<aop:aspect ref="performanceAdvice">
+			<aop:around method="recordTiming"
 						pointcut-ref="ServiceAndDAOPerformance" />
 		</aop:aspect>
 	</aop:config>
