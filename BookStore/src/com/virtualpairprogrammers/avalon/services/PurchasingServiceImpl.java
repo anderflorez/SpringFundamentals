@@ -1,8 +1,11 @@
 package com.virtualpairprogrammers.avalon.services;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 
+@Transactional
 public class PurchasingServiceImpl implements PurchasingService
 {
 	private AccountsService accounts;

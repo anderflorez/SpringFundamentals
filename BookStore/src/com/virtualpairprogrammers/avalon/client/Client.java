@@ -40,20 +40,27 @@ public class Client
 		// Testing database connections
 		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
 		
-		BookService bookService = container.getBean("bookService", BookService.class);
-		bookService.registerNewBook(new Book("2384928389223", "War and Peace", "Leo Tolstoy", 10.99));
-		List<Book> allBooks = bookService.getEntireCatalogue();
-		for (Book next : allBooks)
+		try
 		{
-			System.out.println(next);
+			BookService bookService = container.getBean("bookService", BookService.class);
+			bookService.registerNewBook(new Book("2384928389223", "War and Peace", "Leo Tolstoy", 10.99));
+			List<Book> allBooks = bookService.getEntireCatalogue();
+			for (Book next : allBooks)
+			{
+				System.out.println(next);
+			}
+			try
+			{
+				Book foundBook = bookService.getBookByIsbn("vlakifnvbolikejvsopli");
+			}
+			catch (BookNotFoundException e)
+			{
+				System.err.println("Sorry, that book does not exist");
+			} 
 		}
-		
-		try {
-			Book foundBook = bookService.getBookByIsbn("vlakifnvbolikejvsopli");
-		} catch (BookNotFoundException e) {
-			System.err.println("Sorry, that book does not exist");
+		finally
+		{
+			container.close();			
 		}
-		
-		container.close();
 	}
 }

@@ -2,10 +2,13 @@ package com.virtualpairprogrammers.avalon.services;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.virtualpairprogrammers.avalon.data.BookDao;
 import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 
+@Transactional
 public class BookServiceProductionImpl implements BookService {
 	
 	private BookDao dao;
@@ -44,6 +47,9 @@ public class BookServiceProductionImpl implements BookService {
 	{
 		//We want to put this book in the database
 		dao.create(newBook);
+		
+		//simulating a crash
+		throw new NullPointerException();
 	}
 
 }
