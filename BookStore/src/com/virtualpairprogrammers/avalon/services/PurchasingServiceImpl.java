@@ -1,6 +1,7 @@
 package com.virtualpairprogrammers.avalon.services;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
@@ -34,7 +35,9 @@ public class PurchasingServiceImpl implements PurchasingService
 //	}
 	
 	@Override
-	public void buyBook(String isbn) throws BookNotFoundException
+	@Transactional(rollbackFor= {CustomerCreditExceededException.class, BookNotFoundException.class}, 
+				timeout=10)
+	public void buyBook(String isbn) throws BookNotFoundException, CustomerCreditExceededException
 	{
 		//find the correct book
 		Book requiredBook = books.getBookByIsbn(isbn);

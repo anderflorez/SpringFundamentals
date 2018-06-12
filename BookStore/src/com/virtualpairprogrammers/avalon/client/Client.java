@@ -2,10 +2,10 @@ package com.virtualpairprogrammers.avalon.client;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.virtualpairprogrammers.avalon.data.BookDao;
 import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 import com.virtualpairprogrammers.avalon.services.BookService;
+import com.virtualpairprogrammers.avalon.services.CustomerCreditExceededException;
 import com.virtualpairprogrammers.avalon.services.PurchasingService;
 
 public class Client 
@@ -81,6 +81,10 @@ public class Client
 			catch (BookNotFoundException e)
 			{
 				System.out.println("Sorry, that book doesn't exist");
+			} 
+			catch (CustomerCreditExceededException e) 
+			{
+				System.out.println("Sorry, you can't afford it, go away");
 			}			
 		}
 		finally

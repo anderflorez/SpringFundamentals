@@ -25,12 +25,13 @@ public class BookServiceProductionImpl implements BookService {
 	}
 
 	@Override
-	public List<Book> getAllRecommendedBooks(String userId) 
+	public List<Book> getAllRecommendedBooks(String userId)
 	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
+	//@Transactional(readOnly=true)
 	public Book getBookByIsbn(String isbn) throws BookNotFoundException
 	{
 		return dao.findByIsbn(isbn);

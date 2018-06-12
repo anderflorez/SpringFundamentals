@@ -8,5 +8,5 @@ public interface PurchasingService
 //
 //	void setBookService(BookService books);
 
-	void buyBook(String isbn) throws BookNotFoundException;
+	void buyBook(String isbn) throws BookNotFoundException, CustomerCreditExceededException;
 }

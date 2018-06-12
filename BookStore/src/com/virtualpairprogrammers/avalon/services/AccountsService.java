@@ -4,5 +4,5 @@ import com.virtualpairprogrammers.avalon.domain.Book;
 
 public interface AccountsService
 {
-	void raiseInvoice(Book requiredBook);
+	void raiseInvoice(Book requiredBook) throws CustomerCreditExceededException;
 }
