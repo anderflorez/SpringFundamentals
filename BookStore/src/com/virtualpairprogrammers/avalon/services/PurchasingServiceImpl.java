@@ -1,7 +1,7 @@
 package com.virtualpairprogrammers.avalon.services;
 
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
@@ -35,8 +35,10 @@ public class PurchasingServiceImpl implements PurchasingService
 //	}
 	
 	@Override
+	//The transaction will rollback on either of the exceptions or after the 10 second timeout
+	//it also sets isolation level to serializable for this method
 	@Transactional(rollbackFor= {CustomerCreditExceededException.class, BookNotFoundException.class}, 
-				timeout=10)
+				timeout=10, isolation=Isolation.SERIALIZABLE)
 	public void buyBook(String isbn) throws BookNotFoundException, CustomerCreditExceededException
 	{
 		//find the correct book
