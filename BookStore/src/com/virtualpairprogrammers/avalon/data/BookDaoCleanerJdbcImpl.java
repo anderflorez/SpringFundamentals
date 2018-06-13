@@ -20,7 +20,6 @@ import com.virtualpairprogrammers.avalon.domain.Book;
 
 @Transactional(propagation=Propagation.MANDATORY)
 // a more specific or sophisticated annotation for DAO than @Component but they do almost the same
-@Repository
 public class BookDaoCleanerJdbcImpl implements BookDao
 {
 	@Autowired

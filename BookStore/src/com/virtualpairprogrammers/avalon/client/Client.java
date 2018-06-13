@@ -1,11 +1,11 @@
 package com.virtualpairprogrammers.avalon.client;
 
+import java.util.List;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 import com.virtualpairprogrammers.avalon.services.BookService;
-import com.virtualpairprogrammers.avalon.services.CustomerCreditExceededException;
 import com.virtualpairprogrammers.avalon.services.PurchasingService;
 
 public class Client 
@@ -72,20 +72,14 @@ public class Client
 			PurchasingService purchasing = container.getBean(PurchasingService.class);
 			BookService bookService = container.getBean(BookService.class);
 			
-			bookService.registerNewBook(new Book("10003993939", "Test Title", "Author", 10.99));
+			bookService.registerNewBook(new Book("494949494", "Java Programming", "Josh Bloch", 10.99));
+			List<Book> allBooks = bookService.getAllBooksByAuthor("Josh Bloch");
 			
-			try
+			for (Book book : allBooks)
 			{
-				purchasing.buyBook("10003993939");
-			} 
-			catch (BookNotFoundException e)
-			{
-				System.out.println("Sorry, that book doesn't exist");
-			} 
-			catch (CustomerCreditExceededException e) 
-			{
-				System.out.println("Sorry, you can't afford it, go away");
-			}			
+				System.out.println(book);
+			}
+			
 		}
 		finally
 		{

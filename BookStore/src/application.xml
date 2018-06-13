@@ -12,7 +12,7 @@
 	<!-- Autowire version -->
 
 	<!-- Transaction Manager -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" autowire="byType" />
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" autowire="byType" />
 
 	<!-- DataSources -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -24,7 +24,24 @@
 	</bean>
 
 	<!-- Templates -->
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="constructor" />
+	<!-- <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="constructor" /> -->
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate" autowire="byName" />
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>com.virtualpairprogrammers.avalon.domain</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
 
 	<!-- Tells spring to search for AOP annotations -->
 	<aop:aspectj-autoproxy />
