@@ -2,6 +2,8 @@ package com.virtualpairprogrammers.services.customers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.virtualpairprogrammers.dataaccess.CustomerDao;
@@ -10,10 +12,12 @@ import com.virtualpairprogrammers.domain.Call;
 import com.virtualpairprogrammers.domain.Customer;
 
 @Transactional
+@Service("customerService")
 public class CustomerManagementServiceProductionImpl implements CustomerManagementService {
 	
 	private CustomerDao dao;
 	
+	@Autowired
 	public CustomerManagementServiceProductionImpl(CustomerDao dao)
 	{
 		this.dao = dao;

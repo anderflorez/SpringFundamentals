@@ -5,14 +5,19 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.virtualpairprogrammers.domain.Call;
 import com.virtualpairprogrammers.domain.Customer;
 
+@Repository("customerDao")
 public class CustomerDaoJdbcTemplateImpl implements CustomerDao {
 	
 	private JdbcTemplate template;
@@ -33,12 +38,14 @@ public class CustomerDaoJdbcTemplateImpl implements CustomerDao {
 	private static final String INSERT_CALL = "INSERT INTO TBL_CALL(NOTES, TIME_AND_DATE, CUSTOMER_ID) VALUES (?,?,?)";
 	private static final String QUERY_CALL_CUSTOMER = "SELECT * FROM TB_CALL WHERE CUSTOMER_ID = ?";
 	//private static final String QUERY_ALL_CALL = "SELECT * FROM TB_CALL";
-	
-	public CustomerDaoJdbcTemplateImpl(JdbcTemplate jdbcTemplate)
+
+	@Autowired
+	public CustomerDaoJdbcTemplateImpl(JdbcTemplate template)
 	{
-		this.template = jdbcTemplate;
+		this.template = template;
 	}
 	
+	@PostConstruct
 	private void createTables() {
 		try
 		{

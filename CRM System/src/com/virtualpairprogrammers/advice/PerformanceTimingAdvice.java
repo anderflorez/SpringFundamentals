@@ -1,7 +1,9 @@
 package com.virtualpairprogrammers.advice;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.springframework.stereotype.Component;
 
+@Component("performanceAdvice")
 public class PerformanceTimingAdvice
 {
 	private static final int NANOSECONDS_IN_A_MILLISECOND = 1000000;
