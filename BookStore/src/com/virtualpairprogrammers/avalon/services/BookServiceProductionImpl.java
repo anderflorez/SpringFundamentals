@@ -2,6 +2,8 @@ package com.virtualpairprogrammers.avalon.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.virtualpairprogrammers.avalon.data.BookDao;
@@ -9,14 +11,12 @@ import com.virtualpairprogrammers.avalon.data.BookNotFoundException;
 import com.virtualpairprogrammers.avalon.domain.Book;
 
 @Transactional
+// a more specific annotation for Services than @Component but they do almost the same
+@Service("bookService")
 public class BookServiceProductionImpl implements BookService {
 	
+	@Autowired
 	private BookDao dao;
-	
-	public BookServiceProductionImpl(BookDao dao)
-	{
-		this.dao = dao;
-	}
 
 	@Override
 	public List<Book> getAllBooksByAuthor(String author)

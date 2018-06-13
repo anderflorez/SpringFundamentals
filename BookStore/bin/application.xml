@@ -1,126 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    
-    xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+
+	xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd" >
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd" >
+	<!-- Autowire version -->
 
 	<!-- Transaction Manager -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" autowire="byType" />
 
 	<!-- DataSources -->
-	
-	<!-- Production standard dataSource for connection pool without application server -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
 		<property name="url" value="jdbc:hsqldb:file:database.dat;shutdown=true" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 	</bean>
-	
-	<!-- using an application server - sample code
-	<bean id="appServerDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="jdbc/Books" />
-	</bean>
-	-->
-
 
 	<!-- Templates -->
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg ref="dataSource" />
-	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="constructor" />
 
+	<!-- Tells spring to search for AOP annotations -->
+	<aop:aspectj-autoproxy />
 
-	<!-- DAO Beans -->
-	<bean id="bookDao" class="com.virtualpairprogrammers.avalon.data.BookDaoCleanerJdbcImpl" init-method="createTables">
-		<constructor-arg ref="jdbcTemplate"></constructor-arg>
-	</bean>
-
-
-	<!-- Service Beans -->
+	<!-- Transaction Configuration -->
+	<tx:annotation-driven />
 	
-	<bean id="bookService" class="com.virtualpairprogrammers.avalon.services.BookServiceProductionImpl">
-		<constructor-arg ref="bookDao" />
-	</bean>
-	
-	<bean id="accountsService" class="com.virtualpairprogrammers.avalon.services.AccountsServiceMockImpl" />
-	
-	<!-- scope singleton is the default but there is also prototype which creates multiple instances -->
-	<!-- lazy-init instantiates the object at the first use -->
-	<bean id="purchasingService" 
-		class="com.virtualpairprogrammers.avalon.services.PurchasingServiceImpl"
-		scope="prototype">
-		
-			<!-- Here we can choose between constructor injection or setter injection -->
-			
-			<!-- constructor injection -->
-			<!-- indexes are generally not needed but they can be used (index="0") -->
-			<constructor-arg ref="bookService" />
-			<constructor-arg ref="accountsService" />
-		
-			<!-- setter injection -->
-			<!-- 
-			<property name="accountsService" ref="accountsService"></property>
-			<property name="bookService" ref="bookService"></property>
-			 -->
-	</bean>
-	
-	<!-- Timing Bean -->
-	<!-- 
-	<bean id="bookService" class="com.virtualpairprogrammers.avalon.services.BookServiceTimingProxy">
-		<property name="originalBookService" ref="bookServiceTarget" />
-	</bean>
-	 -->
+	<context:component-scan base-package="com.virtualpairprogrammers" />
 
-
-	<!-- AOP Configuration -->
-
-	<!-- Advice -->
-	<bean id="loggingAdvice" class="com.virtualpairprogrammers.avalon.advice.PerformanceTimingAdvice2" />
-	
-	<!-- Generated Proxies -->
-	<!-- regular generated proxy without using Aspectj Pointcut -->
-	<!-- 	
-	<bean id="bookService" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<property name="proxyInterfaces" value="com.virtualpairprogrammers.avalon.services.BookService" />
-		<property name="interceptorNames">
-			<list>
-				<value>loggingAdvice</value>
-			</list>
-		</property>
-		<property name="target" ref="bookServiceTarget" />
-	</bean>
-	 -->
-	 
-	 <!-- Using Aspectj Pointcut syntax -->
-	 <!-- Weave the advice into the classes defined by the pointcut using the more powerfull and special xml tags -->
-	 <!-- 
-	 <aop:config>
-	 	
-	 	<aop:pointcut expression="execution(java.util.List com.virtualpairprogrammers.avalon.services.*.* (..) )" 
-	 					id="allServiceMethodsThatReturnLists"/>
-	 	
-	 
-	 	<aop:aspect ref="loggingAdvice">
-	 		<aop:around method="performTimingMeasurement"
-	 					pointcut-ref="allServiceMethodsThatReturnLists" />
-	 		<aop:before method="beforeAdviceTesting"
-	 					pointcut-ref="allServiceMethodsThatReturnLists" />
-	 	</aop:aspect>
-	 </aop:config>
-	  -->	
-	  
-	  <!-- Tells spring to search for AOP annotations -->
-	  <aop:aspectj-autoproxy />
-	  
-	  <!-- Transaction Configuration -->
-	  <!-- the attribute transaction-manager is not needed if the transaction manager is called transactionManager -->
-	  <tx:annotation-driven transaction-manager="transactionManager" />
-	  
 </beans>

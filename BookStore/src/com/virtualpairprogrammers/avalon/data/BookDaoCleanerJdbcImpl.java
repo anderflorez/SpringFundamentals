@@ -4,19 +4,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.virtualpairprogrammers.avalon.domain.Book;
 
 @Transactional(propagation=Propagation.MANDATORY)
+// a more specific or sophisticated annotation for DAO than @Component but they do almost the same
+@Repository
 public class BookDaoCleanerJdbcImpl implements BookDao
 {
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	// SQL
@@ -24,11 +31,7 @@ public class BookDaoCleanerJdbcImpl implements BookDao
 	private static final String CREATE_TABLE_SQL = "create table BOOK(ISBN VARCHAR(20), TITLE VARCHAR(50), AUTHOR VARCHAR(50), PRICE DOUBLE)";
 	private static final String GET_ALL_BOOKS_SQL = "select * from BOOK";
 	
-	public BookDaoCleanerJdbcImpl (JdbcTemplate jdbcTemplate)
-	{
-		this.jdbcTemplate = jdbcTemplate;
-	}
-	
+	@PostConstruct
 	private void createTables()
 	{
 		try
