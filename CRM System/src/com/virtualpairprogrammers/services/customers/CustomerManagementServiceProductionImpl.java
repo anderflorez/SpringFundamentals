@@ -2,11 +2,14 @@ package com.virtualpairprogrammers.services.customers;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.virtualpairprogrammers.dataaccess.CustomerDao;
 import com.virtualpairprogrammers.dataaccess.RecordNotFoundException;
 import com.virtualpairprogrammers.domain.Call;
 import com.virtualpairprogrammers.domain.Customer;
 
+@Transactional
 public class CustomerManagementServiceProductionImpl implements CustomerManagementService {
 	
 	private CustomerDao dao;
@@ -23,6 +26,7 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
 	}
 
 	@Override
+	@Transactional(rollbackFor=CustomerNotFoundException.class)
 	public void updateCustomer(Customer changedCustomer) throws CustomerNotFoundException
 	{
 		try {
@@ -35,6 +39,7 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
 	}
 
 	@Override
+	@Transactional(rollbackFor=CustomerNotFoundException.class)
 	public void deleteCustomer(Customer oldCustomer) throws CustomerNotFoundException
 	{
 		try {
@@ -85,6 +90,7 @@ public class CustomerManagementServiceProductionImpl implements CustomerManageme
 	}
 
 	@Override
+	@Transactional(rollbackFor=CustomerNotFoundException.class)
 	public void recordCall(String customerId, Call callDetails) throws CustomerNotFoundException
 	{
 		try

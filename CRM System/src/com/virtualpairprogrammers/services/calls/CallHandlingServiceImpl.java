@@ -2,12 +2,15 @@ package com.virtualpairprogrammers.services.calls;
 
 import java.util.Collection;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.virtualpairprogrammers.domain.Action;
 import com.virtualpairprogrammers.domain.Call;
 import com.virtualpairprogrammers.services.customers.CustomerManagementService;
 import com.virtualpairprogrammers.services.customers.CustomerNotFoundException;
 import com.virtualpairprogrammers.services.diary.DiaryManagementService;
 
+@Transactional
 public class CallHandlingServiceImpl implements CallHandlingService {
 	
 	private CustomerManagementService customerService;
@@ -20,6 +23,7 @@ public class CallHandlingServiceImpl implements CallHandlingService {
 	}
 
 	@Override
+	@Transactional(rollbackFor=CustomerNotFoundException.class)
 	public void recordCall(String customerId, Call newCall, Collection<Action> actions)
 			throws CustomerNotFoundException
 	{
