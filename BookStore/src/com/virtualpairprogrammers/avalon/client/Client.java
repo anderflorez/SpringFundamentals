@@ -65,14 +65,14 @@ public class Client
 		
 		
 		// Testing Transactions
-		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
+		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("production-application.xml");
 		
 		try
 		{
 			PurchasingService purchasing = container.getBean(PurchasingService.class);
 			BookService bookService = container.getBean(BookService.class);
 			
-			//bookService.registerNewBook(new Book("494949494", "Java Programming", "Gary Cornell", 10.99));
+			bookService.registerNewBook(new Book("494949494", "Java Programming", "Gary Cornell", 10.99));
 			List<Book> allBooks = bookService.getAllBooksByAuthor("Gary Cornell");
 			
 			for (Book book : allBooks)

@@ -3,6 +3,7 @@ package com.virtualpairprogrammers.avalon.data;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,15 @@ public class BookDaoJpaImpl implements BookDao {
 	@Override
 	public Book findByIsbn(String isbn) throws BookNotFoundException
 	{
-		return em.createQuery("Select book from Book as book where book.isbn=:isbn", Book.class).setParameter("isbn", isbn).getSingleResult();
+		try
+		{
+			return em.createQuery("Select book from Book as book where book.isbn=:isbn", Book.class)
+					.setParameter("isbn", isbn).getSingleResult();
+		} 
+		catch (NoResultException e)
+		{
+			throw new BookNotFoundException();
+		}
 	}
 
 	@Override

@@ -7,7 +7,9 @@
 	</configSuffixes>
 	<enableImports><![CDATA[true]]></enableImports>
 	<configs>
-		<config>src/application.xml</config>
+		<config>src/datasource-production.xml</config>
+		<config>src/datasource-test.xml</config>
+		<config>src/other-tiers.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
