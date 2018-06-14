@@ -12,8 +12,11 @@
 	<!-- Autowire version -->
 
 	<!-- Transaction Manager -->
+	<!-- 	
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" autowire="byType" />
-
+ 	-->
+ 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" autowire="byType" />
+ 	
 	<!-- DataSources -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -25,7 +28,7 @@
 
 	<!-- Templates -->
 	<!-- <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="constructor" /> -->
-	
+<!-- 	
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate" autowire="byName" />
 	
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -42,7 +45,22 @@
 			</props>
 		</property>
 	</bean>
-
+ -->
+ 
+ 	<!-- Entity manager configuration (for JPA) - No need for template -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		
+        <property name="jpaVendorAdapter">
+	       <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	         <property name="showSql" value="true" />
+		     <property name="generateDdl" value="true" />
+	       </bean>
+        </property>
+     	
+        <property name="dataSource" ref="dataSource"/>		
+    </bean>
+ 	
+ 	
 	<!-- Tells spring to search for AOP annotations -->
 	<aop:aspectj-autoproxy />
 

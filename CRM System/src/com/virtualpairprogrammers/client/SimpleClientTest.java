@@ -19,7 +19,7 @@ public class SimpleClientTest {
 
 	public static void main(String[] args)
 	{
-		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application-annotations.xml");
+		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application-JPA-annotations.xml");
 
 		//		CustomerManagementService customerService = container.getBean("customerService", CustomerManagementService.class);
 		//		
@@ -34,7 +34,17 @@ public class SimpleClientTest {
 			CustomerManagementService customerService = container.getBean(CustomerManagementService.class);
 			CallHandlingService callService = container.getBean(CallHandlingService.class);
 			DiaryManagementService diaryService = container.getBean(DiaryManagementService.class);
-
+			
+			try
+			{
+				Customer customer = customerService.findCustomerById("CS03939");
+				customerService.deleteCustomer(customer);
+			}
+			catch (CustomerNotFoundException e)
+			{
+				System.out.println("The customer doesn't exist");
+			}
+			
 			Customer newCustomer = new Customer("CS03939", "Acme", "Good Company");
 			customerService.newCustomer(newCustomer);
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.virtualpairprogrammers.avalon.domain.Book;
 
-@Repository
+//@Repository
 public class BookDaoHibernateVersion implements BookDao {
 	
 	@Autowired

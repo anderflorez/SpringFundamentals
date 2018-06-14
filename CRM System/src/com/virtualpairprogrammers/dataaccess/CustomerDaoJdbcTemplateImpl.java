@@ -12,12 +12,11 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
 import com.virtualpairprogrammers.domain.Call;
 import com.virtualpairprogrammers.domain.Customer;
 
-@Repository("customerDao")
+//@Repository("customerDao") - Currently using the JPA version
 public class CustomerDaoJdbcTemplateImpl implements CustomerDao {
 	
 	private JdbcTemplate template;

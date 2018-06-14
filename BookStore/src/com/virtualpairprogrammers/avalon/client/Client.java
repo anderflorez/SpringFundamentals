@@ -72,8 +72,8 @@ public class Client
 			PurchasingService purchasing = container.getBean(PurchasingService.class);
 			BookService bookService = container.getBean(BookService.class);
 			
-			bookService.registerNewBook(new Book("494949494", "Java Programming", "Josh Bloch", 10.99));
-			List<Book> allBooks = bookService.getAllBooksByAuthor("Josh Bloch");
+			//bookService.registerNewBook(new Book("494949494", "Java Programming", "Gary Cornell", 10.99));
+			List<Book> allBooks = bookService.getAllBooksByAuthor("Gary Cornell");
 			
 			for (Book book : allBooks)
 			{
