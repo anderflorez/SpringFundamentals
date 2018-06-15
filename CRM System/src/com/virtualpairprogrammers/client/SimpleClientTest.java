@@ -19,7 +19,7 @@ public class SimpleClientTest {
 
 	public static void main(String[] args)
 	{
-		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application-JPA-annotations.xml");
+		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("production-application.xml");
 
 		//		CustomerManagementService customerService = container.getBean("customerService", CustomerManagementService.class);
 		//		
